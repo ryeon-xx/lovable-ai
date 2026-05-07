@@ -181,6 +181,34 @@ lovable-ai/
 └── README.md                      # 이 파일
 ```
 
+---
+
+## 🧩 컴포넌트 구성도
+
+앱 진입(`main.js`) → 레이아웃(`App.vue`) → 라우팅(`/`, `/transactions`)을 거쳐 페이지 컴포넌트와 하위 컴포넌트가 렌더링됩니다.
+
+```mermaid
+flowchart TD
+  main["src/main.js (createApp)"] --> app["src/App.vue (layout)"]
+  app --> aside["aside: 사이드바 (router-link)"]
+  app --> rview["<router-view/>"]
+
+  rview --> dashboard["src/views/Dashboard.vue (/)"]
+  rview --> transactions["src/views/Transactions.vue (/transactions)"]
+
+  dashboard --> statCard["src/components/StatCard.vue"]
+  dashboard --> googleChart["src/components/GoogleChart.vue"]
+
+  transactions --> formModal["src/components/TransactionFormModal.vue"]
+  transactions --> confirmModal["src/components/ConfirmModal.vue"]
+
+  dashboard --> store["src/stores/transactionStore.js (Pinia)"]
+  transactions --> store
+  formModal --> store
+
+  googleChart --> googleAPI["Google Charts (window.google)"]
+```
+
 ### 핵심 파일 설명
 
 #### 📊 `src/stores/transactionStore.js`
